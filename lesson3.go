@@ -59,10 +59,13 @@ func main() {
 
 	remindices := []int{}
 	for i := 0; i < 5; i++ {
-		remindices = append(remindices, cind[i])
+		if i != hidden && i != other {
+			remindices = append(remindices, cind[i])
+		}
 	}
 
 	remindices = sortList(remindices)
+	outputNext3Cards(encode, remindices)
 
 }
 
@@ -80,6 +83,39 @@ func outputFirstCard(numbers []int, oneTwo []int, cards []string) (hidden int, o
 	return
 }
 
+func outputNext3Cards(code int, ind []int) (second int, third int, fourth int) {
+	switch code {
+	case 1:
+		second = ind[0]
+		third = ind[1]
+		fourth = ind[2]
+	case 2:
+		second = ind[0]
+		third = ind[2]
+		fourth = ind[1]
+	case 3:
+		second = ind[1]
+		third = ind[0]
+		fourth = ind[2]
+	case 4:
+		second = ind[1]
+		third = ind[2]
+		fourth = ind[0]
+	case 5:
+		second = ind[2]
+		third = ind[0]
+		fourth = ind[1]
+	case 6:
+		second = ind[2]
+		third = ind[1]
+		fourth = ind[0]
+	}
+	print("second card is:", deck[second])
+	print("third card is:", deck[third])
+	print("fourth card is:", deck[fourth])
+	return
+}
+
 func sortList(tlist []int) (slist []int) {
 	for i := 0; i < len(tlist)-1; i++ {
 		ismall := i
@@ -94,6 +130,104 @@ func sortList(tlist []int) (slist []int) {
 	return
 }
 
-func MagicGuessCard() {
+func MagicianGuessesCard() {
+	print("ordering is :", deck)
+	cards := []string{}
+	cind := []int{}
+	var suit int
+	var number int
+	var encode int
+	for i := 0; i < 5; i++ {
+		scan := bufio.NewScanner(os.Stdin)
+		scan.Scan()
+		card := scan.Text()
+		cards = append(cards, card)
+		n := index(deck, card)
+		cind = append(cind, n)
+		if i == 0 {
+			suit = n % 4
+			number = n / 4
+		}
+	}
+	if cind[1] < cind[2] && cind[1] > cind[3] {
+		if cind[2] < cind[3] {
+			encode = 1
+		} else {
+			encode = 2
+		}
+	} else if (cind[1] < cind[2] && cind[1] > cind[3]) || (cind[1] > cind[2] && cind[2] < cind[3]) {
+		if cind[2] < cind[3] {
+			encode = 3
+		} else {
+			encode = 4
+		}
+	} else if cind[1] > cind[2] && cind[1] > cind[3] {
+		if cind[2] < cind[3] {
+			encode = 5
+		} else {
+			encode = 6
+		}
+	}
 
+	var hiddennumber int = (number + encode) % 13
+	var index int = hiddennumber*4 + suit
+	fmt.Printf("hidden card is:", deck[index])
+}
+
+func ComputerAssistant() {
+	fmt.Printf("ordering is:", deck)
+	cards := []string{}
+	cind := []int{}
+	cardsuits := []int{}
+	cnumbers := []int{}
+	numsuits := make([]int, 4)
+	number := 0
+	var pairsuit int
+
+	for {
+		scan := bufio.NewScanner(os.Stdin)
+		scan.Scan()
+		input := scan.Text()
+		if len(input) > 5 {
+			break
+		}
+	}
+	for i := 0; i < 5; i++ {
+		number = number * (i + 1) / (i + 2)
+		n := number % 52
+		cards = append(cards, deck[n])
+		cind = append(cind, n)
+		cardsuits = append(cardsuits, n%4)
+		cnumbers = append(cnumbers, n/4)
+		numsuits[n%4] += 1
+		if numsuits[n%4] > 1 {
+			pairsuit = n % 4
+		}
+	}
+	cardh := []int{}
+	for i := 0; i < 5; i++ {
+		if cardsuits[i] == pairsuit {
+			cardh = append(cardh, i)
+		}
+	}
+	hidden, other, encode := outputFirstCard(cnumbers, cardh, cards)
+
+	remindices := []int{}
+	for i := 0; i < 5; i++ {
+		if i != hidden && i != other {
+			remindices = append(remindices, cind[i])
+		}
+	}
+
+	remindices = sortList(remindices)
+	outputNext3Cards(encode, remindices)
+
+	scan := bufio.NewScanner(os.Stdin)
+	fmt.Print("What is the hidden card?")
+	guess := scan.Text()
+	if guess == cards[hidden] {
+		fmt.Println("you are a mind reader extraordinaire!")
+	} else {
+		fmt.Println("sorry, not impressed!")
+	}
 }
