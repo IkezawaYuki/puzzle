@@ -1,6 +1,9 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
 	dislikePairs := [][]string{{"Alice", "Bob"}, {"Bob", "Eve"}}
@@ -10,6 +13,40 @@ func main() {
 
 func inviteDinner(guestList []string, dislikePairs [][]string) {
 	allCombList := Combinations(len(guestList), guestList)
+	allGoodCombinations := removeBadCombinations(allCombList, dislikePairs)
+	invite := []string{}
+	for _, v := range allGoodCombinations {
+		if len(v) > len(invite) {
+			invite = v[:]
+		}
+		fmt.Println("Optinum Solution", invite)
+	}
+}
+
+func contains(target string, group []string) bool {
+	for _, v := range group {
+		if v == target {
+			return true
+		}
+	}
+	return false
+}
+
+func removeBadCombinations(allCombList [][]string, dislikePairs [][]string) (allGoodCombinations [][]string) {
+	allGoodCombinations = [][]string{}
+	for _, v := range allCombList {
+		good := true
+		for _, j := range dislikePairs {
+			if contains(j[0], v) && contains(j[1], v) {
+				good = false
+			}
+		}
+		if good {
+			allGoodCombinations = append(allGoodCombinations, v)
+			fmt.Println(allGoodCombinations)
+		}
+	}
+	return
 }
 
 func Combinations(n int, guestList []string) (allCombList [][]string) {
