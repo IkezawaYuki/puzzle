@@ -39,7 +39,7 @@ func main() {
 		scan.Scan()
 		card := scan.Text()
 		cards = append(cards, card)
-		n := index(deck, card)
+		n := Index(deck, card)
 		cind = append(cind, n)
 		cardsuits = append(cardsuits, n%4)
 		cnumbers = append(cnumbers, n/4)
@@ -142,7 +142,7 @@ func MagicianGuessesCard() {
 		scan.Scan()
 		card := scan.Text()
 		cards = append(cards, card)
-		n := index(deck, card)
+		n := Index(deck, card)
 		cind = append(cind, n)
 		if i == 0 {
 			suit = n % 4

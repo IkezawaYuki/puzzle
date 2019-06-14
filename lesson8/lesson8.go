@@ -23,7 +23,7 @@ func inviteDinner(guestList []string, dislikePairs [][]string) {
 	}
 }
 
-func contains(target string, group []string) bool {
+func Contains(target string, group []string) bool {
 	for _, v := range group {
 		if v == target {
 			return true
@@ -37,7 +37,7 @@ func removeBadCombinations(allCombList [][]string, dislikePairs [][]string) (all
 	for _, v := range allCombList {
 		good := true
 		for _, j := range dislikePairs {
-			if contains(j[0], v) && contains(j[1], v) {
+			if Contains(j[0], v) && Contains(j[1], v) {
 				good = false
 			}
 		}

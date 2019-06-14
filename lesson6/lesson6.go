@@ -37,7 +37,7 @@ func findFakeGroup(group1, group2, group3 []int) (fakeGroup []int) {
 	return
 }
 
-func index(group []int, fake int) (index int) {
+func index2(group []int, fake int) (index int) {
 	for index, value := range group {
 		if value == fake {
 			return index
@@ -67,4 +67,13 @@ func splitCoins(coinsList []int) (group1, group2, group3 []int) {
 	group2 = coinsList[length/3 : length/3*2]
 	group3 = coinsList[length/3*2:]
 	return
+}
+
+func index(d []int, card int) (index int) {
+	for index, value := range d {
+		if value == card {
+			return index
+		}
+	}
+	return -1
 }

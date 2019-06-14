@@ -9,7 +9,7 @@ type Interval struct {
 }
 type Intervals []*Interval
 
-func main1() {
+func main() {
 	caps1 := []string{"F", "F", "B", "B", "F", "F", "B", "B"}
 	//caps2 := []string{"F", "B", "B", "B", "F", "B", "B", "F"}
 
