@@ -7,28 +7,25 @@ type Interval struct {
 	End   int
 	Caps  string
 }
-type Intervals []*Interval
 
-func main() {
-	caps1 := []string{"F", "F", "B", "B", "F", "F", "B", "B"}
-	//caps2 := []string{"F", "B", "B", "B", "F", "B", "B", "F"}
-
+func pleaseConform(caps []string){
 	start := 0
 	forward := 0
 	backward := 0
-	var intervals Intervals
-	caps1 = append(caps1, "end")
 
-	for i := 1; i < len(caps1); i++ {
-		if caps1[start] != caps1[i] {
+	intervals := []*Interval{}
+	caps = append(caps, "end")
+
+	for i := 1; i < len(caps); i++ {
+		if caps[start] != caps[i] {
 			var inerval = &Interval{
 				Start: start,
 				End:   i - 1,
-				Caps:  caps1[start],
+				Caps:  caps[start],
 			}
 			intervals = append(intervals, inerval)
 
-			if caps1[start] == "F" {
+			if caps[start] == "F" {
 				forward++
 			} else {
 				backward++
@@ -48,3 +45,5 @@ func main() {
 		}
 	}
 }
+
+
